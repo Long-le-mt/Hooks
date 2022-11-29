@@ -7,6 +7,7 @@ function Content() {
   const [posts, setPosts] = useState([]);
   const [typeTab, setTypeTab] = useState("posts");
   const [showGoToTop, setShowGoToTop] = useState(false);
+  const [countDown, setCountDown] = useState(180);
 
   //   useEffect(() => {
   //     fetch("https://jsonplaceholder.typicode.com/posts")
@@ -38,8 +39,20 @@ function Content() {
     };
   }, []);
 
+  useEffect(() => {
+    const timeId = setInterval(() => {
+      setCountDown((preState) => preState - 1);
+      console.log("Countdown....");
+    }, 1000);
+
+    return () => {
+      clearInterval(timeId);
+    };
+  }, []);
+
   return (
     <div>
+      {countDown}
       <input
         type="text"
         value={title}
@@ -61,7 +74,6 @@ function Content() {
           <li key={post.id}>{post.title || post.name}</li>
         ))}
       </ul>
-
       {showGoToTop && (
         <button
           style={{
@@ -72,7 +84,7 @@ function Content() {
         >
           Go to top
         </button>
-      )}
+      )}{" "}
     </div>
   );
 }
