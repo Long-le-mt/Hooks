@@ -2,42 +2,83 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
 
-const money = [120, 122, 123];
+const courses = [
+  {
+    id: 1,
+    name: "HTML, CSS",
+  },
+  {
+    id: 2,
+    name: "Javascript",
+  },
+  {
+    id: 3,
+    name: "ReactJS",
+  },
+];
+
 function App() {
-  // Không nên ntn, sẽ  thực thi sau mỗi lần re-render
-  // const total = money.reduce((total, cur) => total + cur);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [checkedRadioId, setCheckedRadioId] = useState();
+  const [listCheckedCheckBoxId, setListCheckedCheckBoxId] = useState([]);
 
-  const [counter, setCounter] = useState(() => {
-    const total = money.reduce((total, cur) => total + cur);
-
-    return total;
-  });
-
-  const [info, setInfo] = useState({
-    name: "Nhật long",
-    age: 21,
-    address: "Đà Nẵng",
-  });
-
-  const handleIncrease = () => {
-    // setCounter(counter + 1);
-    setCounter((preState) => preState + 1);
-  };
-
-  const handleUpdateInfo = () => {
-    setInfo({
-      ...info,
-      habbit: "read book",
+  const handleSubmit = () => {
+    console.log("submit", {
+      name,
+      email,
+      checkedRadioId,
+      listCheckedCheckBoxId,
     });
   };
 
-  console.log("oke");
+  const handleCheck = (id) => {
+    const checked = listCheckedCheckBoxId.includes(id);
+    console.log("checked", checked);
+    if (checked) {
+      // uncheck
+      const newChecked = listCheckedCheckBoxId.filter((item) => item !== id);
+      setListCheckedCheckBoxId(newChecked);
+    } else {
+      setListCheckedCheckBoxId([...listCheckedCheckBoxId, id]);
+    }
+  };
+
   return (
     <div className="App">
-      <h1>{counter}</h1>
-      <p>{JSON.stringify(info)}</p>
-      <button onClick={handleUpdateInfo}>Update info</button>
-      <button onClick={handleIncrease}>Increase</button>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="text"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+
+      {courses.map((course) => (
+        <div key={course.id}>
+          <input
+            type="radio"
+            checked={checkedRadioId === course.id}
+            onChange={(e) => setCheckedRadioId(course.id)}
+          />
+          {course.name}
+        </div>
+      ))}
+
+      {courses.map((course) => (
+        <div key={course.id}>
+          <input
+            type="checkbox"
+            checked={listCheckedCheckBoxId.includes(course.id)}
+            onChange={() => handleCheck(course.id)}
+          />
+          {course.name}
+        </div>
+      ))}
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 }
