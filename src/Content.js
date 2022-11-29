@@ -4,19 +4,26 @@ const tabs = ["posts", "comments", "albums"];
 
 function Content() {
   const [count, setCount] = useState(1);
+  const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
-    console.log(`Mounted or Re-render lần ${count}`);
-
     return () => {
-      console.log(`Clean up lần ${count}`);
+      URL.revokeObjectURL(avatar.preview);
     };
-  }, [count]);
+  }, [avatar]);
+
+  const handlePreviewAvatar = (e) => {
+    const file = e.target.files[0];
+
+    file.preview = URL.createObjectURL(file);
+    console.log(URL.createObjectURL(file));
+    setAvatar(file);
+  };
 
   return (
     <div>
-      <h1>{count}</h1>
-      <button onClick={() => setCount(count + 1)}>Click Me!</button>
+      <input type="file" onChange={handlePreviewAvatar} />
+      {avatar && <img src={avatar.preview} alt="" width="80%" />}
     </div>
   );
 }
