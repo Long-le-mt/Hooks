@@ -13,14 +13,30 @@ function App() {
     return total;
   });
 
+  const [info, setInfo] = useState({
+    name: "Nhật long",
+    age: 21,
+    address: "Đà Nẵng",
+  });
+
   const handleIncrease = () => {
     // setCounter(counter + 1);
     setCounter((preState) => preState + 1);
   };
+
+  const handleUpdateInfo = () => {
+    setInfo({
+      ...info,
+      habbit: "read book",
+    });
+  };
+
   console.log("oke");
   return (
     <div className="App">
       <h1>{counter}</h1>
+      <p>{JSON.stringify(info)}</p>
+      <button onClick={handleUpdateInfo}>Update info</button>
       <button onClick={handleIncrease}>Increase</button>
     </div>
   );
