@@ -4,12 +4,20 @@ import { useState } from "react";
 import Content from "./Content";
 
 function App() {
-  const [show, setShow] = useState(false);
+  const [count, setCount] = useState(0);
+  const increase = () => {
+    setCount(count + 1);
+  };
+
+  const handlerCount = (value) => {
+    setCount(value);
+  };
 
   return (
     <div className="App">
-      <button onClick={() => setShow(!show)}>Toggle</button>
-      {show && <Content></Content>}
+      <Content />
+      <h1>{count}</h1>
+      <button onClick={increase}>Click me!</button>
     </div>
   );
 }
